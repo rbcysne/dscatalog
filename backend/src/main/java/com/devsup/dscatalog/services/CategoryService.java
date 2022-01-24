@@ -1,12 +1,17 @@
 package com.devsup.dscatalog.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.devsup.dscatalog.dto.CategoryDTO;
 import com.devsup.dscatalog.entities.Category;
+import com.devsup.dscatalog.exceptions.RegisterNotFoundException;
 import com.devsup.dscatalog.repositories.CategoryRepository;
 
 
@@ -16,7 +21,10 @@ public class CategoryService {
 	@Autowired
 	CategoryRepository categoryRepository;
 	
+	@Autowired
+	private MessageSource messageSource;
 	
+	@Transactional(readOnly = true)
 	public Page<CategoryDTO> findAll(String search, PageRequest pageRequest) {
 		
 		Page<Category> page;
@@ -34,4 +42,19 @@ public class CategoryService {
 		return page.map(CategoryDTO::new);
 	}
 
+	@Transactional(readOnly = true)
+	public CategoryDTO findById(Long id) {
+		
+		Category category = new Category();
+		
+		Optional<Category> obj = this.categoryRepository.findById(id);
+		
+		category = obj.orElseThrow(() -> new RegisterNotFoundException(this.messageSource.getMessage("category-not-found-with-id", null, null) + " " + id));
+		
+		return new CategoryDTO(category);
+	}
+	
+	
 }
+
+
