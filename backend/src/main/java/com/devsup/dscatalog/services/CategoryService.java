@@ -2,6 +2,8 @@ package com.devsup.dscatalog.services;
 
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -69,9 +71,28 @@ public class CategoryService {
 		return new CategoryDTO(category);
 	}
 
+	@Transactional
+	public CategoryDTO update(Long id, CategoryDTO categoryDto) {
+		
+		Category category = new Category();
+		
+		try {
+			category = this.categoryRepository.getById(id);
+			this.converter(categoryDto, category);
+			
+			category = this.categoryRepository.save(category);
+		} catch(EntityNotFoundException e) {
+			throw new RegisterNotFoundException(this.messageSource.getMessage("category-updating-reigster-not-found", null, null) + " " + id);
+		}
+		return new CategoryDTO(category);
+	}
+	
 	private void converter(CategoryDTO categoryDto, Category category) {
 		category.setName(categoryDto.getName().trim());
 	}
+
+	
+
 	
 	
 }
