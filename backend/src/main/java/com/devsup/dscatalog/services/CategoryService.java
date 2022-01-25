@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devsup.dscatalog.dto.CategoryDTO;
 import com.devsup.dscatalog.entities.Category;
+import com.devsup.dscatalog.exceptions.DataBaseException;
 import com.devsup.dscatalog.exceptions.RegisterNotFoundException;
 import com.devsup.dscatalog.repositories.CategoryRepository;
 
@@ -52,6 +53,24 @@ public class CategoryService {
 		category = obj.orElseThrow(() -> new RegisterNotFoundException(this.messageSource.getMessage("category-not-found-with-id", null, null) + " " + id));
 		
 		return new CategoryDTO(category);
+	}
+
+	@Transactional
+	public CategoryDTO insert(CategoryDTO categoryDto) {
+		
+		Category category = new Category();
+		
+		try {
+			this.converter(categoryDto, category);
+			category = this.categoryRepository.save(category);
+		} catch(Exception e) {
+			throw new DataBaseException(e.getMessage());
+		}
+		return new CategoryDTO(category);
+	}
+
+	private void converter(CategoryDTO categoryDto, Category category) {
+		category.setName(categoryDto.getName().trim());
 	}
 	
 	

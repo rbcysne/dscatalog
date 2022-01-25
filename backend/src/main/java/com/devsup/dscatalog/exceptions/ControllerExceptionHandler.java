@@ -27,4 +27,20 @@ public class ControllerExceptionHandler {
 		
 		return ResponseEntity.status(status).body(stdErr);
 	}
+	
+	@ExceptionHandler(DataBaseException.class)
+	public ResponseEntity<StandardError> databaseError(DataBaseException e, HttpServletRequest request) {
+		
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		
+		StandardError stdErr = new StandardError();
+		
+		stdErr.setTimestamp(Instant.now());
+		stdErr.setStatus(status.value());
+		stdErr.setError("Database exception");
+		stdErr.setMessage(e.getMessage());
+		stdErr.setPath(request.getRequestURI());
+		
+		return ResponseEntity.status(status).body(stdErr);
+	}
 }
