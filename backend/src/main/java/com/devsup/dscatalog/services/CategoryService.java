@@ -6,6 +6,8 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -87,9 +89,21 @@ public class CategoryService {
 		return new CategoryDTO(category);
 	}
 	
+	public void delete(Long id) {
+		try {
+			this.categoryRepository.deleteById(id);
+		} catch(EmptyResultDataAccessException e) {
+			throw new RegisterNotFoundException(this.messageSource.getMessage("category-deleting-error-id-not-found", null, null) + " " + id);
+		} catch(DataIntegrityViolationException e) {
+			throw new DataBaseException(this.messageSource.getMessage("category-deleting-error", null, null) + " " + id);
+		}
+	}
+	
 	private void converter(CategoryDTO categoryDto, Category category) {
 		category.setName(categoryDto.getName().trim());
 	}
+
+
 
 	
 
