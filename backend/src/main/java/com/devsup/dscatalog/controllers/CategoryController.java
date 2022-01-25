@@ -32,11 +32,12 @@ public class CategoryController {
 	public ResponseEntity<Page<CategoryDTO>> findAll(
 			@RequestParam(value="search", defaultValue="", required = false) String search,
 			@RequestParam(value="page", defaultValue="0") Integer page,
-			@RequestParam(value="size", defaultValue="5") Integer size,
-			@RequestParam(value="sort", defaultValue="name") String sort,
-			@RequestParam(value="direction", defaultValue="ASC") String direction) {
+			@RequestParam(value="pageSize", defaultValue="5") Integer pageSize,
+			@RequestParam(value="direction", defaultValue="ASC") String direction,
+			@RequestParam(value="sort", defaultValue="name") String sort
+			) {
 		
-		PageRequest pageRequest = PageRequest.of(page, size, Direction.valueOf(direction), sort);
+		PageRequest pageRequest = PageRequest.of(page, pageSize, Direction.valueOf(direction), sort);
 		
 		Page<CategoryDTO> categories = this.categoryService.findAll(search, pageRequest);
 		
