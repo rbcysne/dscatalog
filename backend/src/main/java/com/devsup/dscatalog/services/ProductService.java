@@ -13,10 +13,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.devsup.dscatalog.dto.CategoryDTO;
 import com.devsup.dscatalog.dto.ProductDTO;
+import com.devsup.dscatalog.entities.Category;
 import com.devsup.dscatalog.entities.Product;
 import com.devsup.dscatalog.exceptions.DataBaseException;
 import com.devsup.dscatalog.exceptions.RegisterNotFoundException;
+import com.devsup.dscatalog.repositories.CategoryRepository;
 import com.devsup.dscatalog.repositories.ProductRepository;
 
 
@@ -25,6 +28,9 @@ public class ProductService {
 
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	CategoryRepository categoryRepository;
 	
 	@Autowired
 	private MessageSource messageSource;
@@ -99,15 +105,22 @@ public class ProductService {
 		}
 	}
 	
+	/*
+	 * Method to convert a ProductDTO into a Product entity
+	 */
 	private void converter(ProductDTO productDto, Product product) {
 		product.setName(productDto.getName().trim());
 		product.setDescription(productDto.getDescription().trim());
 		product.setPrice(productDto.getPrice());
 		product.setImgUrl(productDto.getImgUrl().trim());
+		product.setDate(productDto.getDate());
+		
+		product.getCategories().clear();
+		for(CategoryDTO catDto : productDto.getCategories()) {
+			Category category = this.categoryRepository.getById(catDto.getId());
+			product.getCategories().add(category);
+		}
 	}
-
-
-
 	
 
 	
