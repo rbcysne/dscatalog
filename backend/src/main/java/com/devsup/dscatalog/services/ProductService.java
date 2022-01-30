@@ -9,7 +9,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,15 +36,15 @@ public class ProductService {
 	private MessageSource messageSource;
 	
 	@Transactional(readOnly = true)
-	public Page<ProductDTO> findAll(String search, PageRequest pageRequest) {
+	public Page<ProductDTO> findAll(String search, Pageable pageable) {
 		
 		Page<Product> page;
 		
 		try {
 			if(!"".equals(search)) {
-				page = this.productRepository.findByName(search, pageRequest);
+				page = this.productRepository.findByName(search, pageable);
 			} else {
-				page = this.productRepository.findAll(pageRequest);
+				page = this.productRepository.findAll(pageable);
 			}
 		} catch(Exception e) {
 			throw new RuntimeException(e.getMessage());
