@@ -90,7 +90,7 @@ public class ProductService {
 			
 			product = this.productRepository.save(product);
 		} catch(EntityNotFoundException e) {
-			throw new RegisterNotFoundException(this.messageSource.getMessage("product-updating-reigster-not-found", null, null) + " " + id);
+			throw new RegisterNotFoundException(this.messageSource.getMessage("product-updating-register-not-found", null, null) + " " + id);
 		}
 		return new ProductDTO(product);
 	}

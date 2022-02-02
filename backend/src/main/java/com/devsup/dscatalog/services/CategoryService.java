@@ -84,7 +84,7 @@ public class CategoryService {
 			
 			category = this.categoryRepository.save(category);
 		} catch(EntityNotFoundException e) {
-			throw new RegisterNotFoundException(this.messageSource.getMessage("category-updating-reigster-not-found", null, null) + " " + id);
+			throw new RegisterNotFoundException(this.messageSource.getMessage("category-updating-register-not-found", null, null) + " " + id);
 		}
 		return new CategoryDTO(category);
 	}
