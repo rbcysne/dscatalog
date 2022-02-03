@@ -41,7 +41,7 @@ public class ProductService {
 		Page<Product> page;
 		
 		try {
-			if(!"".equals(search)) {
+			if(search != null && !search.isBlank()) {
 				page = this.productRepository.findByName(search, pageable);
 			} else {
 				page = this.productRepository.findAll(pageable);

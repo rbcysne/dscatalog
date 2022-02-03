@@ -32,9 +32,9 @@ public class ProductController {
 			@RequestParam(value="search", defaultValue="", required = false) String search,
 			Pageable pageable) {
 		
-		Page<ProductDTO> categories = this.productService.findAll(search, pageable);
+		Page<ProductDTO> products = this.productService.findAll(search, pageable);
 		
-		return ResponseEntity.ok().body(categories);
+		return ResponseEntity.ok().body(products);
 	}
 	
 	@GetMapping("/{id}")
