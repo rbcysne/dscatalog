@@ -82,8 +82,8 @@ public class ProductServiceTests {
 		Mockito.when(categoryRepository.getById(existingId)).thenReturn(category);
 		Mockito.when(categoryRepository.getById(nonExistingId)).thenThrow(EntityNotFoundException.class);
 		
-//		Mockito.mock(MessageSource.class).getMessage("product-deleting-error-id-not-found", null, null);
-//		Mockito.mock(MessageSource.class).getMessage("product-deleting-error", null, null);
+		Mockito.mock(MessageSource.class).getMessage("product-deleting-error-id-not-found", null, null);
+		Mockito.mock(MessageSource.class).getMessage("product-deleting-error", null, null);
 	}
 	
 	@Test
