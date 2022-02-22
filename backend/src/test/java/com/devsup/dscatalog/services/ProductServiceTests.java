@@ -116,24 +116,24 @@ public class ProductServiceTests {
 	@Test
 	public void findAllShouldReturnPage() {
 		
-		Pageable pageable = PageRequest.of(0, 10);
+		PageRequest pageRequest = PageRequest.of(0, 10);
 		
-		Page<ProductDTO> page = productService.findAll(null, pageable);
+		Page<ProductDTO> page = productService.findAll(null, pageRequest);
 		
 		Assertions.assertNotNull(page);
-		Mockito.verify(productRepository, Mockito.times(1)).findAll(pageable);
+		Mockito.verify(productRepository, Mockito.times(1)).findAll(pageRequest);
 	}
 	
 	@Test
 	public void findAllWithSearchArgumentShouldReturnPage() {
 		
-		Pageable pageable = PageRequest.of(0, 10);
+		PageRequest pageRequest = PageRequest.of(0, 10);
 		String search = "name";
 		
-		Page<ProductDTO> page = productService.findAll(search, pageable);
+		Page<ProductDTO> page = productService.findAll(search, pageRequest);
 		
 		Assertions.assertNotNull(page);
-		Mockito.verify(productRepository, Mockito.times(1)).findByName(search, pageable);
+		Mockito.verify(productRepository, Mockito.times(1)).findByName(search, pageRequest);
 	}
 	
 	@Test
