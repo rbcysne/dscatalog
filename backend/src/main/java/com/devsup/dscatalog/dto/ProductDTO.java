@@ -20,7 +20,7 @@ public class ProductDTO implements Serializable {
 	
 	private Long id;
 	
-	@Size(min = 5, max = 60)
+	@Size(min = 5, max = 60, message = "Field should have between 5 and 60 characters")
 	@NotBlank
 	private String name;
 	
