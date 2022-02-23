@@ -2,6 +2,8 @@ package com.devsup.dscatalog.controllers;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,7 +48,7 @@ public class ProductController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO productDto, 
+	public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO productDto, 
 				UriComponentsBuilder uriBuilder) {
 		
 		productDto = this.productService.insert(productDto);

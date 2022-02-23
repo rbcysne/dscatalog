@@ -2,6 +2,8 @@ package com.devsup.dscatalog.controllers;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,7 +49,7 @@ public class CategoryController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<CategoryDTO> insert(@RequestBody CategoryDTO categoryDto, 
+	public ResponseEntity<CategoryDTO> insert(@Valid @RequestBody CategoryDTO categoryDto, 
 				UriComponentsBuilder uriBuilder) {
 		
 		categoryDto = this.categoryService.insert(categoryDto);
