@@ -21,6 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.devsup.dscatalog.dto.UserDTO;
 import com.devsup.dscatalog.dto.UserInsertDTO;
+import com.devsup.dscatalog.dto.UserUpdateDTO;
 import com.devsup.dscatalog.services.UserService;
 
 @RestController
@@ -71,9 +72,9 @@ public class UserController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<UserDTO> update(@PathVariable("id") Long id, 
-				@RequestBody UserDTO userDto) {
+			@Valid @RequestBody UserUpdateDTO userUpdateDto) {
 		
-		userDto = this.userService.update(id, userDto);
+		UserDTO userDto = this.userService.update(id, userUpdateDto);
 		
 		return ResponseEntity.ok().body(userDto);
 	}
