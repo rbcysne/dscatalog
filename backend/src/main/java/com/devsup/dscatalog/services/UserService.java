@@ -76,6 +76,11 @@ public class UserService implements UserDetailsService {
 		
 		return new UserDTO(user);
 	}
+	
+	@Transactional(readOnly = true)
+	public User findByEmail(String email) {
+		return this.userRepository.findByEmail(email);
+	}
 
 	@Transactional
 	public UserDTO insert(UserInsertDTO userInsertDto) {
@@ -145,6 +150,7 @@ public class UserService implements UserDetailsService {
 		logger.info("User found: " + username);
 		return user;
 	}
+
 	
 
 	
