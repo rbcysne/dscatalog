@@ -30,11 +30,12 @@ public class ProductController {
 	ProductService productService;
 
 	@GetMapping
-	public ResponseEntity<Page<ProductDTO>> findAll(
-			@RequestParam(value="search", defaultValue="", required = false) String search,
+	public ResponseEntity<Page<ProductDTO>> findProductsByNameAndCategory(
+			@RequestParam(value = "categoryId", defaultValue = "0", required = false) Long categoryId,
+			@RequestParam(value = "search", defaultValue = "", required = false) String search,
 			Pageable pageable) {
 		
-		Page<ProductDTO> products = this.productService.findAll(search, pageable);
+		Page<ProductDTO> products = this.productService.findProductsByNameAndCategory(search.trim(), categoryId, pageable);
 		
 		return ResponseEntity.ok().body(products);
 	}
