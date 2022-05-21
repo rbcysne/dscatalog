@@ -26,5 +26,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 			+ "WHERE (:name = '' OR UPPER(p.name) LIKE CONCAT('%', UPPER(:name), '%')) "
 			+ "AND (COALESCE(:categories) IS NULL OR cts IN :categories)")
 	Page<Product> findProductsByNameAndCategory(String name, List<Category> categories, Pageable pageable);
+	
+	@Query("SELECT p FROM Product p JOIN FETCH p.categories WHERE p IN :products")
+	List<Product> findProductsAndCategories(List<Product> products);
 
 }

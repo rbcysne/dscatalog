@@ -46,11 +46,12 @@ public class ProductService {
 		
 		try {
 			page = this.productRepository.findProductsByNameAndCategory(search, categories, pageable);
+			this.productRepository.findProductsAndCategories(page.getContent());
 		} catch(Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
 		
-		return page.map(ProductDTO::new);
+		return page.map(x -> new ProductDTO(x, x.getCategories())); //ProductDTO::new);
 	}
 
 	@Transactional(readOnly = true)
