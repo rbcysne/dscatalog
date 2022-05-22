@@ -17,7 +17,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
@@ -28,9 +29,11 @@ import com.devsup.dscatalog.exceptions.DataBaseException;
 import com.devsup.dscatalog.exceptions.RegisterNotFoundException;
 import com.devsup.dscatalog.services.ProductService;
 import com.devsup.dscatalog.tests.Factory;
+import com.devsup.dscatalog.tests.TokenUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(ProductController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class ProductContollerTests {
 
 	@Autowired
@@ -42,6 +45,11 @@ public class ProductContollerTests {
 	@Autowired
 	private ObjectMapper mapper;
 	
+	@Autowired
+	private TokenUtil tokenUtil;
+	
+	private String username;
+	private String password;
 	private Long existingId;
 	private Long nonExistingId;
 	private Long dependentId;
@@ -51,13 +59,16 @@ public class ProductContollerTests {
 	@BeforeEach
 	void setup() throws Exception {
 		
+		username = "alex@gmail.com";
+		password = "123456";
+		
 		existingId = 1L;
 		nonExistingId = 1000L;
 		dependentId = 4L;
 		productDto = Factory.createProductDTO();
 		page = new PageImpl<>(List.of(productDto));
 		
-		when(productService.findAll(any(), any())).thenReturn(page);
+		when(productService.findProductsByNameAndCategory(any(), any(), any())).thenReturn(page);
 		
 		when(productService.findById(existingId)).thenReturn(productDto);
 		when(productService.findById(nonExistingId)).thenThrow(RegisterNotFoundException.class);
@@ -104,9 +115,12 @@ public class ProductContollerTests {
 	@Test
 	public void updateShouldReturnObjectDTOWhenIdExists() throws Exception {
 		
+		String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
+		
 		String json = mapper.writeValueAsString(productDto);
 		
 		mockMvc.perform(put("/products/{id}", existingId)
+				.header("Authorization", "Bearer " + accessToken)
 				.content(json)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -117,9 +131,12 @@ public class ProductContollerTests {
 	@Test
 	public void updateShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
 		
+		String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
+		
 		String json = mapper.writeValueAsString(productDto);
 		
 		mockMvc.perform(put("/products/{id}", nonExistingId)
+				.header("Authorization", "Bearer " + accessToken)
 				.content(json)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -129,9 +146,12 @@ public class ProductContollerTests {
 	@Test
 	public void insertShouldReturnObjectDTO() throws Exception {
 		
+		String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
+		
 		String json = mapper.writeValueAsString(productDto);
 		
 		mockMvc.perform(post("/products")
+				.header("Authorization", "Bearer " + accessToken)
 				.content(json)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -142,7 +162,10 @@ public class ProductContollerTests {
 	@Test
 	public void deleteShouldReturnNoContentWhenIdExists() throws Exception {
 		
+		String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
+		
 		mockMvc.perform(delete("/products/{id}", existingId)
+				 .header("Authorization", "Bearer " + accessToken)
 				 .accept(MediaType.APPLICATION_JSON))
 				 .andExpect(status().isNoContent());
 	}
@@ -150,7 +173,10 @@ public class ProductContollerTests {
 	@Test
 	public void deleteShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
 		
+		String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
+		
 		mockMvc.perform(delete("/products/{id}", nonExistingId)
+				 .header("Authorization", "Bearer " + accessToken)
 				 .accept(MediaType.APPLICATION_JSON))
 				 .andExpect(status().isNotFound());
 	}

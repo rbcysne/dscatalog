@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devsup.dscatalog.dto.ProductDTO;
 import com.devsup.dscatalog.tests.Factory;
+import com.devsup.dscatalog.tests.TokenUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -30,14 +30,21 @@ public class ProductControllerIntegrationTest {
 		@Autowired
 		private ObjectMapper mapper;
 		
+		@Autowired
+		private TokenUtil tokenUtil;
+		
+		private String username;
+		private String password;
 		private Long existingId;
 		private Long nonExistingId;
 		private Long countTotalProducts;
-		private ProductDTO productDto;
-		private PageImpl<ProductDTO> page;
-		
+
 		@BeforeEach
 		void setup() throws Exception {
+			
+			username = "alex@gmail.com";
+			password = "123456";
+			
 			existingId = 1L;
 			nonExistingId = 1000L;
 			countTotalProducts = 25L;
@@ -59,6 +66,8 @@ public class ProductControllerIntegrationTest {
 		@Test
 		public void updateShouldReturnObjectDTOWhenIdExists() throws Exception {
 			
+			String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
+			
 			ProductDTO prodDto = Factory.createProductDTO();
 			
 			String json = mapper.writeValueAsString(prodDto);
@@ -66,6 +75,7 @@ public class ProductControllerIntegrationTest {
 			String name = prodDto.getName();
 			
 			mockMvc.perform(put("/products/{id}", existingId)
+					.header("Authorization", "Bearer " + accessToken)
 					.content(json)
 					.contentType(MediaType.APPLICATION_JSON)
 					.accept(MediaType.APPLICATION_JSON))
@@ -76,11 +86,14 @@ public class ProductControllerIntegrationTest {
 		@Test
 		public void updateShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
 			
+			String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
+			
 			ProductDTO prodDto = Factory.createProductDTO();
 			
 			String json = mapper.writeValueAsString(prodDto);
 			
 			mockMvc.perform(put("/products/{id}", nonExistingId)
+					.header("Authorization", "Bearer " + accessToken)
 					.content(json)
 					.contentType(MediaType.APPLICATION_JSON)
 					.accept(MediaType.APPLICATION_JSON))

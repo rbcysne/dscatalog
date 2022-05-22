@@ -1,5 +1,7 @@
 package com.devsup.dscatalog.services;
 
+import static org.mockito.ArgumentMatchers.any;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -68,13 +70,13 @@ public class ProductServiceTests {
 		Mockito.doThrow(EmptyResultDataAccessException.class).when(productRepository).deleteById(nonExistingId);
 		Mockito.doThrow(DataIntegrityViolationException.class).when(productRepository).deleteById(dependentId);
 		
-		Mockito.when(productRepository.findAll((Pageable)ArgumentMatchers.any())).thenReturn(page);
-		Mockito.when(productRepository.findByName(ArgumentMatchers.anyString(), (Pageable)ArgumentMatchers.any())).thenReturn(page);
+		Mockito.when(productRepository.findAll((Pageable)any())).thenReturn(page);
+		Mockito.when(productRepository.findProductsByNameAndCategory(any(), any(), any())).thenReturn(page);
 		
 		Mockito.when(productRepository.findById(existingId)).thenReturn(Optional.of(product));
 		Mockito.when(productRepository.findById(nonExistingId)).thenReturn(Optional.empty());
 		
-		Mockito.when(productRepository.save(ArgumentMatchers.any())).thenReturn(product);
+		Mockito.when(productRepository.save(any())).thenReturn(product);
 		
 		Mockito.when(productRepository.getById(existingId)).thenReturn(product);
 		Mockito.when(productRepository.getById(nonExistingId)).thenThrow(EntityNotFoundException.class);
@@ -118,10 +120,10 @@ public class ProductServiceTests {
 		
 		PageRequest pageRequest = PageRequest.of(0, 10);
 		
-		Page<ProductDTO> page = productService.findAll(null, pageRequest);
+		Page<ProductDTO> page = productService.findProductsByNameAndCategory(null, 0L, pageRequest);
 		
 		Assertions.assertNotNull(page);
-		Mockito.verify(productRepository, Mockito.times(1)).findAll(pageRequest);
+		Mockito.verify(productRepository, Mockito.times(1)).findProductsByNameAndCategory(any(), any(), any());
 	}
 	
 	@Test
@@ -130,10 +132,10 @@ public class ProductServiceTests {
 		PageRequest pageRequest = PageRequest.of(0, 10);
 		String search = "name";
 		
-		Page<ProductDTO> page = productService.findAll(search, pageRequest);
+		Page<ProductDTO> page = productService.findProductsByNameAndCategory(search, 0L, pageRequest);
 		
 		Assertions.assertNotNull(page);
-		Mockito.verify(productRepository, Mockito.times(1)).findByName(search, pageRequest);
+		Mockito.verify(productRepository, Mockito.times(1)).findProductsByNameAndCategory(search, null, pageRequest);
 	}
 	
 	@Test
