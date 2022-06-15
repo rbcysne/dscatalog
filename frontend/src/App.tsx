@@ -1,12 +1,12 @@
 import React from 'react';
-import Home from 'pages/Home';
 import './assets/styles/custom.scss';
 import './App.css';
+import Catalog from 'pages/Catalog';
 
 function App() {
   return (
     <>
-      <Home />
+      <Catalog />
     </>
   );
 }
