@@ -17,9 +17,11 @@ const Home = () => {
                                 disponíveis no mercado.
                             </p>
                         </div>
-                        <Link to="/catalog">
-                            <ButtonIcon />
-                        </Link>
+                        <div>
+                            <Link to="/catalog">
+                                <ButtonIcon />
+                            </Link>
+                        </div>
                     </div>
 
                     <div className="home-image-container">
