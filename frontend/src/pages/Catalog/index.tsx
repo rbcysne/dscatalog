@@ -7,7 +7,7 @@ const Catalog = () => {
         "id": 2,
         "name": "Smart TV",
         "description": "Uma TV",
-        "price": 2193.00,
+        "price": 2193.0,
         "imgUrl": "https://m.media-amazon.com/images/I/81IdScEcX2S._AC_SX679_.jpg",
         "date": "2020-07-14T10:00:00Z",
         "categories": [
