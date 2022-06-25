@@ -5,6 +5,7 @@ import Navbar from "components/Navbar";
 import Home from "pages/Home";
 import Catalog from "pages/Catalog";
 import Admin from "pages/Admin";
+import ProductDetails from "pages/ProductDetails";
 
 const Routes = () => {
     return (
@@ -13,7 +14,9 @@ const Routes = () => {
             <Switch>
                 <Route component = { Home } path="/" exact />
 
-                <Route component ={ Catalog } path="/catalog" />
+                <Route component ={ Catalog } path="/catalog" exact />
+
+                <Route component ={ ProductDetails } path="/catalog/:productId" exact />
 
                 <Route component ={ Admin } path="/admin" />
             </Switch>
