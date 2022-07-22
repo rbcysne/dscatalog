@@ -17,7 +17,7 @@ const ProductDetails = () => {
                             <img src="https://m.media-amazon.com/images/I/81IdScEcX2S._AC_SX679_.jpg" alt="Nome do Produto" />
                         </div>
                         <div className="name-price-container">
-                            <h6>Nome do produto</h6>
+                            <h1>Nome do produto</h1>
                             <ProductPrice price={2962.23}/>
                         </div>
                     </div>
