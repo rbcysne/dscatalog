@@ -8,7 +8,7 @@
     justify-content: space-around;
     list-style-type: none;
     margin: 0px;
-    padding: 0px;;
+    padding: 0px;
 }
 
 .admin-navbar-item {
@@ -32,4 +32,40 @@
 
 .admin-navbar-item p {
     margin: 0px;
+}
+
+@media (min-width: 576px) {
+    .admin-navbar-item {
+        min-width: 140px;
+    }
+}
+
+@media (min-width: 768px) {
+    .admin-navbar-item {
+        min-width: 240px;
+    }
+}
+
+@media (min-width:1200px) {
+    .admin-navbar-container {
+        padding: 0;
+        width: 300px;
+        height: calc(100vh - 70px);
+    }
+
+    .admin-navbar-items {
+        justify-content: unset;
+        flex-direction: column;
+    }
+
+    .admin-navbar-item {
+        justify-content: flex-start;
+        height: 80px;
+        background-color: #ffffff;
+        border-radius: 0;
+        font-size: 18px;
+        border-bottom: 1px solid #E1E1E1;
+        padding-left: 40px ;
+    }
+
 }
