@@ -1,10 +1,30 @@
 import { ReactComponent as ArrowIcon } from 'assets/images/arrow.svg';
+import axios from 'axios';
 import ProductPrice from 'components/ProductPrice';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { Product } from 'types/products';
+import { BASE_URL } from 'util/requests';
 
 import './styles.css';
 
+type UrlParams = {
+    productId: string;
+}
+
 const ProductDetails = () => {
+
+    const { productId } = useParams<UrlParams>();
+
+    const [product, setProduct] = useState<Product>();
+
+    useEffect(() => {
+        axios.get(`${BASE_URL}/products/${productId}`)
+        .then(response => {
+            setProduct(response.data);
+        });
+    }, [productId]);
+
     return (
         <div className="product-details-container">
             <div className="base-card product-details-card">
@@ -17,13 +37,13 @@ const ProductDetails = () => {
                     <div className="col-xl-6">
                         <div className="img-container">
                             <img
-                                src="https://m.media-amazon.com/images/I/81IdScEcX2S._AC_SX679_.jpg"
-                                alt="Nome do Produto"
+                                src={product?.imgUrl}
+                                alt={product?.name}
                             />
                         </div>
                         <div className="name-price-container">
-                            <h1>Nome do produto</h1>
-                            <ProductPrice price={2962.23} />
+                            <h1>{product?.name}</h1>
+                            {product && <ProductPrice price={product?.price} />}
                         </div>
                     </div>
 
@@ -31,8 +51,7 @@ const ProductDetails = () => {
                         <div className="description-container">
                             <h2>Descrição do Produto</h2>
                             <p>
-                                Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Soluta, eaque!
+                                {product?.description}
                             </p>
                         </div>
                     </div>
