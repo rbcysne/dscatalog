@@ -1,0 +1,35 @@
+.admin-navbar-container {
+    padding: 10px;
+    background: #ffffff;
+}
+
+.admin-navbar-items {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;;
+}
+
+.admin-navbar-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    background-color: #f2f2f2;
+    border-radius: 100px;
+    padding: 0px 10px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: #9e9e9e;
+}
+
+.admin-navbar-item.active {
+    background: rgba(64, 123, 255, 0.3);
+    color: #407bff;
+}
+
+.admin-navbar-item p {
+    margin: 0px;
+}
