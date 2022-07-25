@@ -3,7 +3,7 @@ import axios from 'axios';
 import ProductPrice from 'components/ProductPrice';
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Product } from 'types/products';
+import { Product } from 'types/product';
 import { BASE_URL } from 'util/requests';
 
 import './styles.css';

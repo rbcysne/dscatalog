@@ -1,29 +1,41 @@
+import axios from 'axios';
 import Pagination from 'components/Pagination';
 import ProductCard from 'components/ProductCard';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Product } from 'types/products';
+import { Product } from 'types/product';
+import { AxiosParams } from 'types/vendor/axios';
+import { SpringPage } from 'types/vendor/spring';
+import { BASE_URL } from 'util/requests';
+import CardLoader from './CardLoader';
 
 import './styles.css';
 
 const Catalog = () => {
-    const prod: Product = {
-        id: 2,
-        name: 'Smart TV',
-        description: 'Uma TV',
-        price: 2193.0,
-        imgUrl: 'https://m.media-amazon.com/images/I/81IdScEcX2S._AC_SX679_.jpg',
-        date: '2020-07-14T10:00:00Z',
-        categories: [
-            {
-                id: 1,
-                name: 'Livros',
+    const [page, setPage] = useState<SpringPage<Product>>();
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        const params: AxiosParams = {
+            method: 'GET',
+            url: `${BASE_URL}/products`,
+            params: {
+                page: 0,
+                size: 12,
             },
-            {
-                id: 3,
-                name: 'Computadores',
-            },
-        ],
-    };
+        };
+
+        setIsLoading(true);
+        axios(params)
+            .then((response) => {
+                setPage(response.data);
+            })
+            .finally(() => {
+                setIsLoading(false)
+            });
+    }, []);
+
     return (
         <>
             <div className="container my-4 catalog-container">
@@ -32,41 +44,17 @@ const Catalog = () => {
                 </div>
 
                 <div className="row">
-                    <div className="col-sm-6 col-lg-4 col-xl-3">
-                        <Link to="catalog/1">
-                            <ProductCard product={prod} />
-                        </Link>
-                    </div>
-
-                    <div className="col-sm-6 col-lg-4 col-xl-3">
-                        <Link to="catalog/1">
-                            <ProductCard product={prod} />
-                        </Link>
-                    </div>
-
-                    <div className="col-sm-6 col-lg-4 col-xl-3">
-                        <Link to="catalog/1">
-                            <ProductCard product={prod} />
-                        </Link>
-                    </div>
-
-                    <div className="col-sm-6 col-lg-4 col-xl-3">
-                        <Link to="catalog/1">
-                            <ProductCard product={prod} />
-                        </Link>
-                    </div>
-
-                    <div className="col-sm-6 col-lg-4 col-xl-3">
-                        <Link to="catalog/1">
-                            <ProductCard product={prod} />
-                        </Link>
-                    </div>
-
-                    <div className="col-sm-6 col-lg-4 col-xl-3">
-                        <Link to="catalog/1">
-                            <ProductCard product={prod} />
-                        </Link>
-                    </div>
+                    {isLoading ? <CardLoader /> : (
+                        page?.content.map((product) => {
+                            return (
+                                <div className="col-sm-6 col-lg-4 col-xl-3" key={product.id}>
+                                    <Link to="catalog/1">
+                                        <ProductCard product={product} />
+                                    </Link>
+                                </div>
+                            );
+                        })
+                    )}
                 </div>
 
                 <div className="row">
