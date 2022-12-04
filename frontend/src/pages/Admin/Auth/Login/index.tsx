@@ -1,19 +1,39 @@
 import { Link } from "react-router-dom";
 import ButtonIcon from "components/ButtonIcon";
+import { useForm } from "react-hook-form";
 
 import './styles.css';
+import { FormData } from "types/FormData";
+import { requestBackendLogin } from "util/requests";
+
 
 const Login = () => {
+
+    const {register, handleSubmit} = useForm<FormData>();
+
+    const onSubmit = (formData : FormData) => {
+        requestBackendLogin(formData)
+        .then(response => {
+            console.log('SUCESSO', response);
+        })
+        .catch(error => {
+            console.log('ERROR');
+        });
+
+    }
+
     return (
         <div className="base-card login-card">
             <h1>LOGIN</h1>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-4">
-                    <input type="text" className="form-control base-input"
+                    <input {...register("username")} type="text" 
+                        className="form-control base-input"
                         placeholder="Email" name="username" />
                 </div>
                 <div className="mb-2">
-                    <input type="password" className="form-control base-input " 
+                    <input {...register("password")} type="password" 
+                        className="form-control base-input " 
                         placeholder="Password" name="password" />
                 </div>
                     <Link to="/admin/auth/recover" className="login-link-recover">
