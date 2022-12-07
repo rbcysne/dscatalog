@@ -1,8 +1,10 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
+import jwtDecode from 'jwt-decode';
 
 import { LoginData } from 'types/LoginData';
 import { LoginResponse } from 'types/LoginResponse';
+import { TokenData } from 'types/TokenData';
 import history from './history';
 
 export const BASE_URL =
@@ -86,3 +88,19 @@ axios.interceptors.response.use(
       return Promise.reject(error);
     }
 );
+
+export const getTokenData = () : TokenData | undefined => {
+
+  try {
+    return jwtDecode(getAuthData().access_token) as TokenData;
+  } catch(error) {
+    return undefined;
+  }
+}
+
+export const isAuthenticated = () : boolean => {
+  
+  const tokenData = getTokenData();
+
+  return (tokenData && (tokenData.exp * 1000) > Date.now()) ? true : false;
+}

@@ -1,11 +1,12 @@
 import { Link, useHistory } from "react-router-dom";
 import ButtonIcon from "components/ButtonIcon";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 import './styles.css';
 import { FormData } from "types/FormData";
 import { requestBackendLogin, saveAuthData } from "util/requests";
-import { useState } from "react";
+
 
 
 const Login = () => {
@@ -28,7 +29,6 @@ const Login = () => {
             setHasError(true);
             console.log('ERROR');
         });
-
     }
 
     return (
