@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 import './styles.css';
 import { FormData } from "types/FormData";
-import { requestBackendLogin } from "util/requests";
+import { requestBackendLogin, saveAuthData } from "util/requests";
 import { useState } from "react";
 
 
@@ -17,6 +17,7 @@ const Login = () => {
     const onSubmit = (formData : FormData) => {
         requestBackendLogin(formData)
         .then(response => {
+            saveAuthData(response.data);
             setHasError(false);
             console.log('SUCESSO', response);
         })
