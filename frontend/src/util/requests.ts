@@ -55,6 +55,32 @@ export const getAuthData = () => {
     return JSON.parse(str) as LoginResponse;
 };
 
+export const removeAuthData = () => {
+  localStorage.removeItem(token);
+}
+
+export const getTokenData = () : TokenData | undefined => {
+
+  try {
+    return jwtDecode(getAuthData().access_token) as TokenData;
+  } catch(error) {
+    return undefined;
+  }
+}
+
+export const isAuthenticated = () : boolean => {
+  
+  const tokenData = getTokenData();
+
+  let authenticated = false;
+
+  if(tokenData !== undefined) {
+    authenticated = (tokenData && (tokenData.exp * 1000) > Date.now()) ? true : false;
+  }
+
+  return authenticated;
+}
+
 // Add a request interceptor
 axios.interceptors.request.use(
     function (config) {
@@ -89,24 +115,3 @@ axios.interceptors.response.use(
     }
 );
 
-export const getTokenData = () : TokenData | undefined => {
-
-  try {
-    return jwtDecode(getAuthData().access_token) as TokenData;
-  } catch(error) {
-    return undefined;
-  }
-}
-
-export const isAuthenticated = () : boolean => {
-  
-  const tokenData = getTokenData();
-
-  let authenticated = false;
-
-  if(tokenData !== undefined) {
-    authenticated = (tokenData && (tokenData.exp * 1000) > Date.now()) ? true : false;
-  }
-
-  return authenticated;
-}
