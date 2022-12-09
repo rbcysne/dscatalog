@@ -102,5 +102,11 @@ export const isAuthenticated = () : boolean => {
   
   const tokenData = getTokenData();
 
-  return (tokenData && (tokenData.exp * 1000) > Date.now()) ? true : false;
+  let authenticated = false;
+
+  if(tokenData !== undefined) {
+    authenticated = (tokenData && (tokenData.exp * 1000) > Date.now()) ? true : false;
+  }
+
+  return authenticated;
 }
