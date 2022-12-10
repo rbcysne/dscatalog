@@ -26,3 +26,30 @@
     color: #ffffff;
     font-weight: 700;
 }
+
+.navbar-login-logout {
+    color: #ffffff;
+    display: none;
+    margin-right: 15px;
+}
+
+.navbar-username {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .navbar-login-logout {
+        display: unset;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar-login-logout {
+        padding-left: 50px;
+    }
+
+    .navbar-username {
+        display: unset;
+        margin-right: 10px;
+    }
+}

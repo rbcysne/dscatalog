@@ -73,21 +73,25 @@ function Navbar() {
                 ADMIN
               </NavLink>
             </li>
+            <li>
+
+            </li>
           </ul>
+
+        </div>
+        <div className="navbar-login-logout">
+            {
+              authData.authenticated ? (
+                <>
+                  <span className="navbar-username">{authData.tokenData?.user_name}</span>
+                  <a href="#logout" onClick={handleLogout}>LOGOUT</a>
+                </>
+              ) : (
+                <Link to="/admin/auth">LOGIN</Link>
+              )
+            } 
         </div>
 
-        <div>
-          {
-            authData.authenticated ? (
-              <>
-                <span>{authData.tokenData?.user_name} - </span>
-                <a href="#logout" onClick={handleLogout}>LOGOUT</a>
-              </>
-            ) : (
-              <Link to="/admin/auth">LOGIN</Link>
-            )
-          }
-        </div>
 
       </div>
     </nav>
