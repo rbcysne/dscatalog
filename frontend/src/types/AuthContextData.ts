@@ -1,6 +1,6 @@
 import { TokenData } from "./TokenData";
 
-export type AuthData = {
+export type AuthContextData = {
     authenticated: boolean;
     tokenData?: TokenData;
 }
