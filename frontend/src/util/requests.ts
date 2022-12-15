@@ -6,6 +6,7 @@ import { LoginData } from 'types/LoginData';
 import { LoginResponse } from 'types/LoginResponse';
 import { TokenData } from 'types/TokenData';
 import history from './history';
+import { Role } from 'types/Role';
 
 export const BASE_URL =
     process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:8080';
@@ -79,6 +80,21 @@ export const isAuthenticated = () : boolean => {
   }
 
   return authenticated;
+}
+
+export const hasAnyRole = (roles: Role[]) : boolean => {
+
+  if(roles.length === 0) {
+    return true;
+  }
+
+  const tokenData = getTokenData();
+
+  if(tokenData !== undefined) {
+    return roles.some(role => tokenData.authorities.includes(role));
+  }
+
+  return false;
 }
 
 // Add a request interceptor
