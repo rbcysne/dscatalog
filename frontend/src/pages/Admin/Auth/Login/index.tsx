@@ -5,8 +5,11 @@ import { useContext, useState } from "react";
 
 import { AuthContext } from "AuthContext";
 import { FormData } from "types/FormData";
-import { getTokenData, requestBackendLogin, saveAuthData } from "util/requests";
+import { requestBackendLogin} from "util/requests";
+import { saveAuthData } from "util/storage";
+import { getTokenData } from "util/auth";
 import './styles.css';
+
 
 
 type LocationState = {
