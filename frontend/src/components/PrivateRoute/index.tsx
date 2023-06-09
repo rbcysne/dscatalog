@@ -30,7 +30,6 @@ const PrivateRoute = ({ children, path, roles = [] } : Props) => {
                 ) : (
                     <>{children}</>
                 )
-                
             }
         />
     );

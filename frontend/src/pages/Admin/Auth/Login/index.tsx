@@ -21,7 +21,7 @@ const Login = () => {
 
     const location = useLocation<LocationState>();
 
-    const { from } = location.state || { from: { pathName: '/admin'} };
+    const { from } = location.state || { from: { pathname: '/admin'} };
 
     const {setAuthContextData} = useContext(AuthContext);
 
