@@ -1,4 +1,4 @@
-import ProductCardCrud from 'components/ProductCardCrud';
+import ProductCardCrud from 'pages/Admin/Products/ProductCardCrud';
 
 import './styles.css';
 import { Link } from 'react-router-dom';

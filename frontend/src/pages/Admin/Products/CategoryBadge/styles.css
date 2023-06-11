@@ -1,0 +1,11 @@
+.product-badge-container {
+    height: 33px;
+    padding: 7px;
+    border-radius: 10px;
+    background-color: #C4C4C4;
+    color: #424242;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: -0.015em;
+    margin-right: 10px;
+}
