@@ -6,7 +6,7 @@ type Props = {
 
 const CategoryBadge = ( {categoryName} : Props ) => {
     return (
-        <div className="product-badge-container">
+        <div className="category-badge-container">
             {categoryName}
         </div>
     );
