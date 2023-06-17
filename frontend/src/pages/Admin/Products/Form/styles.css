@@ -1,0 +1,10 @@
+.product-form-card {
+    padding: 20px;
+}
+
+.product-form-card-title {
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.015em;
+    color: #263238;
+}
