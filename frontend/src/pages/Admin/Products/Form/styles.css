@@ -7,4 +7,53 @@
     font-size: 22px;
     letter-spacing: -0.015em;
     color: #263238;
+    margin-bottom: 30px;
+}
+
+.margin-bottom-30 {
+    margin-bottom: 30px;
+}
+
+.product-form-card-info-container {
+    margin-bottom: 30px;
+}
+
+.product-form-card-details {
+    margin-bottom: 30px;
+}
+
+.product-form-card-buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-form-card {
+    height: 50px;
+    width: 45%;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+@media (min-width: 414px) {
+    .product-form-card-buttons-container {
+        justify-content:flex-end;
+    }
+
+    .btn-form-card {
+        width: 151px;
+        margin-left: 30px;
+    }
+}
+
+@media (min-width: 576px) {
+    .btn-form-card {
+        width: 272px;
+    }
+}
+
+@media (min-width: 992px) {
+    .product-form-card-details {
+        margin-bottom: 0;
+    }
+
 }
