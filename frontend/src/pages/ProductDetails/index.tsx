@@ -3,7 +3,7 @@ import axios from 'axios';
 import ProductPrice from 'components/ProductPrice';
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Product } from 'types/product';
+import { ProductDTO } from 'types/ProductDTO';
 import { BASE_URL } from 'util/requests';
 import ProductDetailsLoader from './ProductDetailsLoader';
 import ProductImgLoader from './ProductImgLoader';
@@ -17,7 +17,7 @@ type UrlParams = {
 const ProductDetails = () => {
     const { productId } = useParams<UrlParams>();
 
-    const [product, setProduct] = useState<Product>();
+    const [product, setProduct] = useState<ProductDTO>();
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {

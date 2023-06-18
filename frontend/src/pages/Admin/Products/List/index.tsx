@@ -4,13 +4,13 @@ import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
 import ProductCardCrud from 'pages/Admin/Products/ProductCardCrud';
 import { SpringPage } from 'types/vendor/spring';
-import { Product } from 'types/product';
+import { ProductDTO } from 'types/ProductDTO';
 
 import './styles.css';
 
 const List = () => {
 
-    const [page, setPage] = useState<SpringPage<Product>>();
+    const [page, setPage] = useState<SpringPage<ProductDTO>>();
 
     useEffect(() => {
         const params: AxiosRequestConfig = {
@@ -42,11 +42,11 @@ const List = () => {
             </div>
 
             <div className="row">
-                <div className="col-sm-6 col-md-12">
+                <div className="col-md-12">
                     {(
                         page?.content.map((product) => {
                             return(
-                                <div key={product.id} className="col-sm-6 col-md-12">
+                                <div key={product.id}>
                                     <ProductCardCrud product={product} />
                                 </div>
                             );

@@ -6,6 +6,8 @@
     text-align: center;
     padding: 16px 0;
     border-bottom: 1px solid #e1e1e1;
+    min-width: 159px;
+    min-height: 159px;
 }
 
 .card-top-container-crud img {

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 
 import { AuthContext } from "AuthContext";
-import { FormData } from "types/FormData";
+import { CredentialsDTO } from "types/CredentialsDTO";
 import { requestBackendLogin} from "util/requests";
 import { saveAuthData } from "util/storage";
 import { getTokenData } from "util/auth";
@@ -27,12 +27,12 @@ const Login = () => {
 
     const [hasError, setHasError] = useState(false);
 
-    const { register, handleSubmit, formState: {errors} } = useForm<FormData>();
+    const { register, handleSubmit, formState: {errors} } = useForm<CredentialsDTO>();
 
     const history = useHistory();
 
-    const onSubmit = (formData : FormData) => {
-        requestBackendLogin(formData)
+    const onSubmit = (credentialsDTO : CredentialsDTO) => {
+        requestBackendLogin(credentialsDTO)
         .then(response => {
             saveAuthData(response.data);
             setHasError(false);

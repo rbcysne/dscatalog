@@ -3,7 +3,7 @@ import Pagination from 'components/Pagination';
 import ProductCard from 'components/ProductCard';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Product } from 'types/product';
+import { ProductDTO } from 'types/ProductDTO';
 import { SpringPage } from 'types/vendor/spring';
 import { requestBackend } from 'util/requests';
 import CardLoader from './CardLoader';
@@ -11,7 +11,7 @@ import CardLoader from './CardLoader';
 import './styles.css';
 
 const Catalog = () => {
-    const [page, setPage] = useState<SpringPage<Product>>();
+    const [page, setPage] = useState<SpringPage<ProductDTO>>();
 
     const [isLoading, setIsLoading] = useState(false);
 

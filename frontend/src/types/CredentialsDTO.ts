@@ -1,4 +1,4 @@
-export type FormData = {
+export type CredentialsDTO = {
     username: string;
     password: string;
 }

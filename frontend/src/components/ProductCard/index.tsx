@@ -1,10 +1,10 @@
 import './styles.css';
 
 import ProductPrice from 'components/ProductPrice';
-import { Product } from 'types/product';
+import { ProductDTO } from 'types/ProductDTO';
 
 type Props = {
-    product: Product;
+    product: ProductDTO;
 }
 
 const ProductCard = ( { product } : Props ) => {
