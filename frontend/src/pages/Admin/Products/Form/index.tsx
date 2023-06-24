@@ -1,32 +1,56 @@
 import { useForm } from 'react-hook-form';
-import { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 import { ProductDTO } from 'types/ProductDTO';
+import { BASE_URL } from 'util/requests';
 import './styles.css';
 
 
-type Props = {
-    productId: number;
+
+
+type UrlParams = {
+    productId: string;
 }
 
+const Form = () => {
 
+    const {productId} = useParams<UrlParams>();
 
-const Form = ( {productId} : Props) => {
+    const { register, handleSubmit, formState: {errors}, setValue } = useForm<ProductDTO>();
 
-    const { register, handleSubmit, formState: {errors} } = useForm<ProductDTO>();
+    const isEditing = (productId !== 'create');
 
     const history = useHistory();
 
+    useEffect(() => {
+
+        if(isEditing) {
+            requestBackend({url:`/products/${productId}`})
+                .then((response) => {
+                    const product = response.data as ProductDTO;
+
+                    setValue('name', product.name);
+                    setValue('price', product.price);
+                    setValue('description', product.description);
+                    setValue('imgUrl', product.imgUrl);
+                    setValue('categories', product.categories);
+                });
+        };
+
+    }, [productId, isEditing, setValue]);
+
     const onSubmit = (productDto:ProductDTO) => {
 
-        const cat = {...productDto, categories:[ {id: 1, name:""} ], 
-            imgUrl: "https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/1-big.jpg"};
+        const cat = {...productDto, 
+                    categories: isEditing ? productDto.categories : [ {id: 1, name:""} ], 
+                    imgUrl: isEditing ? productDto.imgUrl : "https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/1-big.jpg"};
         
         const config: AxiosRequestConfig = {
-            method: 'POST',
-            url: '/products',
+            method: isEditing ? 'PUT' : 'POST',
+            url: isEditing ? `/products/${productId}` : '/products',
             data: cat,
             withCredentials: true,
         }

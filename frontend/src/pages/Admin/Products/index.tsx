@@ -9,7 +9,7 @@ const Products = () => {
                 <List />
             </Route>
             <Route path="/admin/products/:productId" >
-                <Form productId={1}/>
+                <Form />
             </Route>
         </Switch>
     )
