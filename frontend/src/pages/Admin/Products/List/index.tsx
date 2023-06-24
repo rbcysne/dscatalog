@@ -12,7 +12,7 @@ const List = () => {
 
     const [page, setPage] = useState<SpringPage<ProductDTO>>();
 
-    useEffect(() => {
+    const getProducts = () => {
         const params: AxiosRequestConfig = {
             method: 'GET',
             url: "/products",
@@ -23,9 +23,13 @@ const List = () => {
         };
 
         requestBackend(params)
-            .then((response) => {
-                setPage(response.data);
-            });
+        .then((response) => {
+            setPage(response.data);
+        });
+    };
+
+    useEffect(() => {
+        getProducts();
     }, []);
 
     return (
@@ -47,7 +51,8 @@ const List = () => {
                         page?.content.map((product) => {
                             return(
                                 <div key={product.id}>
-                                    <ProductCardCrud product={product} />
+                                    <ProductCardCrud product={product} 
+                                        onDelete={() => getProducts()}/>
                                 </div>
                             );
                         })

@@ -1,15 +1,38 @@
-import './styles.css';
+import { Link } from 'react-router-dom';
+import { AxiosRequestConfig } from 'axios';
 
 import ProductPrice from 'components/ProductPrice';
 import { ProductDTO } from 'types/ProductDTO';
 import CategoryBadge from '../CategoryBadge';
-import { Link } from 'react-router-dom';
+import { requestBackend } from 'util/requests';
+
+import './styles.css';
+
+
 
 type Props = {
     product: ProductDTO;
+    onDelete: Function;
 }
 
-const ProductCardCrud = ( { product } : Props ) => {
+const ProductCardCrud = ( { product, onDelete } : Props ) => {
+
+    const handleDelete = (productId : number) => {
+
+        if(!window.confirm("Confirma exclusão do produto?")) {
+            return;
+        }
+
+        const config: AxiosRequestConfig = {
+            method: 'DELETE',
+            url: `/products/${productId}`,
+            withCredentials: true,
+        };
+
+        requestBackend(config).then(() => {
+            onDelete();
+        });
+    };
 
     return (
 
@@ -37,7 +60,8 @@ const ProductCardCrud = ( { product } : Props ) => {
             </div>
 
             <div className="product-card-buttons-container-crud">
-                    <button className="btn btn-outline-danger product-card-btn-crud">
+                    <button onClick={() => handleDelete(product.id)}
+                        className="btn btn-outline-danger product-card-btn-crud">
                         EXCLUIR
                     </button>
                     <Link to={`/admin/products/${product.id}`}>
