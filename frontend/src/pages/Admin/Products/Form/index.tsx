@@ -1,16 +1,28 @@
 import { useForm } from 'react-hook-form';
-import './styles.css';
-import { ProductDTO } from 'types/ProductDTO';
 import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
+import { useHistory } from 'react-router-dom';
 
-const Form = () => {
+import { ProductDTO } from 'types/ProductDTO';
+import './styles.css';
+
+
+type Props = {
+    productId: number;
+}
+
+
+
+const Form = ( {productId} : Props) => {
 
     const { register, handleSubmit, formState: {errors} } = useForm<ProductDTO>();
 
+    const history = useHistory();
+
     const onSubmit = (productDto:ProductDTO) => {
 
-        const cat = {...productDto, categories:[ {id: 1, name:""} ], imgUrl: "nada"};
+        const cat = {...productDto, categories:[ {id: 1, name:""} ], 
+            imgUrl: "https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/1-big.jpg"};
         
         const config: AxiosRequestConfig = {
             method: 'POST',
@@ -21,8 +33,12 @@ const Form = () => {
 
         requestBackend(config)
             .then((response) => {
-                console.log(response.data);
+                history.push("/admin/products");
             });
+    };
+
+    const handleCancel = () => {
+        history.push("/admin/products");
     };
 
     return (
@@ -86,7 +102,8 @@ const Form = () => {
                     </div>
 
                     <div className="product-form-card-buttons-container">
-                        <button className="btn btn-outline-danger btn-form-card">
+                        <button onClick={handleCancel}
+                                className="btn btn-outline-danger btn-form-card">
                             Cancelar
                         </button>
                         <button className="btn btn-primary btn-form-card">
