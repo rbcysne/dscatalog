@@ -1,14 +1,11 @@
 import { useForm } from 'react-hook-form';
-import axios, { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
 import { useHistory, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { ProductDTO } from 'types/ProductDTO';
-import { BASE_URL } from 'util/requests';
 import './styles.css';
-
-
 
 
 type UrlParams = {
@@ -18,10 +15,9 @@ type UrlParams = {
 const Form = () => {
 
     const {productId} = useParams<UrlParams>();
+    const isEditing = (productId !== 'create');
 
     const { register, handleSubmit, formState: {errors}, setValue } = useForm<ProductDTO>();
-
-    const isEditing = (productId !== 'create');
 
     const history = useHistory();
 
