@@ -2,11 +2,12 @@ import { useForm } from 'react-hook-form';
 import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
 import { useHistory, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Select from 'react-select';
 
 import { ProductDTO } from 'types/ProductDTO';
 import './styles.css';
+import { Category } from 'types/category';
 
 
 
@@ -15,12 +16,6 @@ type UrlParams = {
 }
 
 const Form = () => {
-
-    const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' }
-      ] 
 
     const {productId} = useParams<UrlParams>();
     const isEditing = (productId !== 'create');
@@ -69,6 +64,15 @@ const Form = () => {
         history.push("/admin/products");
     };
 
+    const [selectCategories, setSelectCategories] = useState<Category[]>([]);
+
+    useEffect(() => {
+        requestBackend({url: '/categories'})
+            .then((response) => {
+                setSelectCategories(response.data.content);
+            });
+    }, []);
+
     return (
         <div className="product-form-container">
             <div className="base-card product-form-card">
@@ -91,17 +95,12 @@ const Form = () => {
                             </div>
 
                             <div className="margin-bottom-30">
-                                <input 
-                                    
-                                    type="text" 
-                                    className="form-control base-input"
-                                    placeholder="Categoria" />
-                            </div>
-
-                            <div className="margin-bottom-30">
-                                <Select options={options} 
+                                <Select options={selectCategories} 
                                     isMulti
-                                    classNamePrefix="product-form-card-select" />
+                                    classNamePrefix="product-form-card-select" 
+                                    getOptionLabel={(category: Category) => category.name}
+                                    getOptionValue={(category: Category) => String(category.id)} />
+                                    
                             </div>
 
                             <div className="">
