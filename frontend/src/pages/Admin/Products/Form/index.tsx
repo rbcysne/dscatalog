@@ -3,9 +3,11 @@ import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
 import { useHistory, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import Select from 'react-select';
 
 import { ProductDTO } from 'types/ProductDTO';
 import './styles.css';
+
 
 
 type UrlParams = {
@@ -13,6 +15,12 @@ type UrlParams = {
 }
 
 const Form = () => {
+
+    const options = [
+        { value: 'chocolate', label: 'Chocolate' },
+        { value: 'strawberry', label: 'Strawberry' },
+        { value: 'vanilla', label: 'Vanilla' }
+      ] 
 
     const {productId} = useParams<UrlParams>();
     const isEditing = (productId !== 'create');
@@ -88,6 +96,12 @@ const Form = () => {
                                     type="text" 
                                     className="form-control base-input"
                                     placeholder="Categoria" />
+                            </div>
+
+                            <div className="margin-bottom-30">
+                                <Select options={options} 
+                                    isMulti
+                                    classNamePrefix="product-form-card-select" />
                             </div>
 
                             <div className="">

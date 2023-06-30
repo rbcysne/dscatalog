@@ -21,6 +21,7 @@ a, a:hover {
 }
 
 .base-input {
+    background-color: #ffffff;
     border-radius: 10px;
     font-size: 1em;
     letter-spacing: -0.015em;

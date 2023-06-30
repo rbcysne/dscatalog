@@ -34,6 +34,22 @@
     font-weight: 700;
 }
 
+.product-form-card-select__control {
+    border-radius: 10px !important;
+    font-size: 1em;
+    letter-spacing: -0.015em;
+    color: #263238;
+    height: 50px;
+}
+
+.product-form-card-select__placeholder {
+    color: #9E9E9E !important;
+}
+
+.product-form-card-select__indicator-separator {
+    display: none;
+}
+
 @media (min-width: 414px) {
     .product-form-card-buttons-container {
         justify-content:flex-end;
