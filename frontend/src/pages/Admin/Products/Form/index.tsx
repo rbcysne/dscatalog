@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
 import { useHistory, useParams } from 'react-router-dom';
@@ -6,8 +6,9 @@ import { useEffect, useState } from 'react';
 import Select from 'react-select';
 
 import { ProductDTO } from 'types/ProductDTO';
-import './styles.css';
 import { Category } from 'types/category';
+import './styles.css';
+import { error } from 'console';
 
 
 
@@ -20,7 +21,7 @@ const Form = () => {
     const {productId} = useParams<UrlParams>();
     const isEditing = (productId !== 'create');
 
-    const { register, handleSubmit, formState: {errors}, setValue } = useForm<ProductDTO>();
+    const { register, handleSubmit, formState: {errors}, setValue, control } = useForm<ProductDTO>();
 
     const history = useHistory();
 
@@ -44,7 +45,6 @@ const Form = () => {
     const onSubmit = (productDto:ProductDTO) => {
 
         const cat = {...productDto, 
-                    categories: isEditing ? productDto.categories : [ {id: 1, name:""} ], 
                     imgUrl: isEditing ? productDto.imgUrl : "https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/1-big.jpg"};
         
         const config: AxiosRequestConfig = {
@@ -95,11 +95,23 @@ const Form = () => {
                             </div>
 
                             <div className="margin-bottom-30">
-                                <Select options={selectCategories} 
-                                    isMulti
-                                    classNamePrefix="product-form-card-select" 
-                                    getOptionLabel={(category: Category) => category.name}
-                                    getOptionValue={(category: Category) => String(category.id)} />
+
+                                <Controller 
+                                    name="categories"
+                                    control={control}
+                                    rules={{required: true}}
+                                    render={({ field }) => (
+                                        <Select {...field}
+                                            options={selectCategories} 
+                                            isMulti
+                                            classNamePrefix="product-form-card-select" 
+                                            getOptionLabel={(category: Category) => category.name}
+                                            getOptionValue={(category: Category) => String(category.id)} />
+                                    )}
+                                />
+                                {errors.categories && (
+                                    <div className="invalid-feedback d-block">Campo obrigatório </div>
+                                )}
                                     
                             </div>
 
